@@ -1,232 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Movie</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap");
+        * {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            border: none;
+            text-decoration: none;
+            text-transform: capitalize;
+        }
+
+        body {
+            background-color: coral;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 100px auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .main-video-container {
+            flex: 1 1 700px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 15px;
+        }
+
+        .main-video {
+            margin-bottom: 7px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .main-video__title {
+            font-size: 20px;
+            color: #444;
+        }
+
+        .video-list-container {
+            flex: 1 1 350px;
+            height: 485px;
+            overflow-y: scroll;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 15px;
+        }
+
+        .list {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            background-color: #eee;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .list.active {
+            background-color: #444;
+        }
+
+        .list.active .list__title {
+            color: #fff;
+        }
+
+        .list__video {
+            width: 100px;
+            border-radius: 5px;
+        }
+
+        .list__title {
+            font-size: 17px;
+            color: #444;
+        }
+
+        @media (max-width: 450px) {
+            .container {
+                margin: 0;
+            }
+            .main-video__title {
+                font-size: 15px;
+                text-align: center;
+            }
+            .list {
+                flex-flow: column;
+                gap: 10px;
+            }
+            .list__video {
+                width: 100%;
+            }
+            .list__title {
+                font-size: 15px;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
-
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    
-    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap");
-* {
-  font-family: "Poppins", sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  outline: none;
-  border: none;
-  text-decoration: none;
-  text-transform: capitalize;
-}
-
-body {
-  background-color: coral;
-  padding: 20px;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 100px auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 20px;
-}
-@media (max-width: 1200px) {
-  .container {
-    margin: 0;
-  }
-}
-
-.main-video-container {
-  flex: 1 1 700px;
-  border-radius: 5px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  padding: 15px;
-}
-
-.main-video {
-  margin-bottom: 7px;
-  border-radius: 5px;
-  width: 100%;
-}
-.main-video__title {
-  font-size: 20px;
-  color: #444;
-}
-@media (max-width: 450px) {
-  .main-video__title {
-    font-size: 15px;
-    text-align: center;
-  }
-}
-
-.video-list-container {
-  flex: 1 1 350px;
-  height: 485px;
-  overflow-y: scroll;
-  border-radius: 5px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  padding: 15px;
-}
-.video-list-container::-webkit-scrollbar {
-  width: 10px;
-}
-.video-list-container::-webkit-scrollbar-track {
-  background-color: #fff;
-  border-radius: 5px;
-}
-.video-list-container::-webkit-scrollbar-thumb {
-  background-color: #444;
-  border-radius: 5px;
-}
-
-.list {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 10px;
-  background-color: #eee;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
-.list:last-child {
-  margin-bottom: 0;
-}
-.list.active {
-  background-color: #444;
-}
-.list.active .list__title {
-  color: #fff;
-}
-@media (max-width: 450px) {
-  .list {
-    flex-flow: column;
-    gap: 10px;
-  }
-}
-.list__video {
-  width: 100px;
-  border-radius: 5px;
-}
-@media (max-width: 450px) {
-  .list__video {
-    width: 100%;
-  }
-}
-.list__title {
-  font-size: 17px;
-  color: #444;
-}
-@media (max-width: 450px) {
-  .list__title {
-    font-size: 15px;
-    text-align: center;
-  }
-}
-
-    
-    
-    
-    
-    
-  
-    
-    
-    
-  </style>
-
-
-
-
 <body>
-
-
-<title>Responsive Video</title>
-
-<div class="container">
-
-  <div class="main-video-container">
-    
-    
-     <div id="player"></div>
-    
-    <h1 id="movieName"></h1>
-    <p id="movieDescription"></p>
-  </div>
-  
-  
-  
-  
-  
-
-  <div class="video-list-container">
-
-    <div class="list active">
-      <video class="list__video" src="img/vid-1.mp4"></video>
-      <h3 class="list__title">house flood animation</h3>
+    <div class="container">
+        <div class="main-video-container">
+            <video class="main-video" id="mainVideo" loop controls></video>
+            <h3 class="main-video__title" id="mainVideoTitle">Selected Movie</h3>
+        </div>
+        <div class="video-list-container">
+            <!-- Video list will be populated dynamically -->
+        </div>
     </div>
 
-    <div class="list">
-      <video class="list__video" src="img/vid-2.mp4"></video>
-      <h3 class="list__title">zoombie walking animation</h3>
-    </div>
+    <script>
+        window.onload = function() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const film = urlParams.get('film');
+            const url = decodeURIComponent(urlParams.get('url'));
 
-    <div class="list">
-      <video class="list__video" src="img/vid-3.mp4"></video>
-      <h3 class="list__title">emoji falling animation</h3>
-    </div>
-
-    <div class="list">
-      <video class="list__video" src="img/vid-4.mp4"></video>
-      <h3 class="list__title">3D town animation</h3>
-    </div>
-
-    <div class="list">
-      <video class="list__video" src="img/vid-5.mp4"></video>
-      <h3 class="list__title">man chasing carrot animation</h3>
-    </div>
-
-    <div class="list">
-      <video class="list__video" src="img/vid-6.mp4"></video>
-      <h3 class="list__title">door hinge animation</h3>
-    </div>
-
-    <div class="list">
-      <video class="list__video" src="img/vid-7.mp4"></video>
-      <h3 class="list__title">poeple walking in town animation</h3>
-    </div>
-
-    <div class="list">
-      <video class="list__video" src="img/vid-8.mp4"></video>
-      <h3 class="list__title">knight chasing virus animation</h3>
-    </div>
-
-    <div class="list">
-      <video class="list__video" src="img/vid-9.mp4"></video>
-      <h3 class="list__title">3D helicopter animation</h3>
-    </div>
-
-  </div>
-
-</div>
-	<script>
-    
-       const movieName = sessionStorage.getItem('movieName');
-        const movieDescription = sessionStorage.getItem('movieDescription');
-        const videoUrl = sessionStorage.getItem('movieUrl');
-
-        document.getElementById('movieName').textContent = movieName;
-        document.getElementById('movieDescription').textContent = movieDescription;
-
-        var player = new Clappr.Player({
-            source: videoUrl,
-            parentId: "#player",
-            // You can add more configurations here
-        });
-    
+            document.getElementById('mainVideo').src = url;
+            document.getElementById('mainVideoTitle').innerText = film;
+        };
     </script>
 </body>
 </html>
