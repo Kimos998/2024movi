@@ -33,7 +33,7 @@
         }
 
         .main-video-container {
-            flex: 1 1 700px;
+            flex: 1 1 100%; /* Make the main video container full width */
             border-radius: 5px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             background-color: #fff;
@@ -41,9 +41,9 @@
         }
 
         .main-video {
-            margin-bottom: 7px;
             border-radius: 5px;
             width: 100%;
+            height: 360px; /* Set video player height */
         }
 
         .main-video__title {
@@ -52,62 +52,37 @@
         }
 
         .video-list-container {
-            flex: 1 1 350px;
-            height: 485px;
-            overflow-y: scroll;
+            flex: 1 1 100%; /* Make the video list container full width */
+            height: auto; /* Make the height auto to allow content to expand */
+            overflow-y: auto; /* Add vertical scrollbar if needed */
             border-radius: 5px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             background-color: #fff;
             padding: 15px;
         }
 
-        .list {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 10px;
-            background-color: #eee;
-            cursor: pointer;
-            border-radius: 5px;
+        .video-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .video-list-item {
             margin-bottom: 10px;
         }
 
-        .list.active {
-            background-color: #444;
-        }
-
-        .list.active .list__title {
-            color: #fff;
-        }
-
-        .list__video {
-            width: 100px;
-            border-radius: 5px;
-        }
-
-        .list__title {
-            font-size: 17px;
-            color: #444;
-        }
-
-        @media (max-width: 450px) {
+        @media (min-width: 768px) {
             .container {
-                margin: 0;
+                flex-wrap: nowrap;
             }
-            .main-video__title {
-                font-size: 15px;
-                text-align: center;
+
+            .main-video-container {
+                flex: 1 1 70%; /* Adjust width for larger screens */
             }
-            .list {
-                flex-flow: column;
-                gap: 10px;
-            }
-            .list__video {
-                width: 100%;
-            }
-            .list__title {
-                font-size: 15px;
-                text-align: center;
+
+            .video-list-container {
+                flex: 1 1 30%; /* Adjust width for larger screens */
+                max-height: 400px; /* Limit height for better layout */
             }
         }
     </style>
@@ -115,13 +90,18 @@
 <body>
     <div class="container">
         <div class="main-video-container">
-            <video class="main-video" id="mainVideo" loop controls></video>
+            <!-- Clappr Player will be inserted here -->
             <h3 class="main-video__title" id="mainVideoTitle">Selected Movie</h3>
         </div>
         <div class="video-list-container">
-            <!-- Video list will be populated dynamically -->
+            <ul class="video-list">
+                <!-- Video list items will be added here -->
+            </ul>
         </div>
     </div>
+
+    <!-- Include Clappr Player script -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
 
     <script>
         window.onload = function() {
@@ -130,7 +110,13 @@
             const film = urlParams.get('film');
             const url = decodeURIComponent(urlParams.get('url'));
 
-            document.getElementById('mainVideo').src = url;
+            // Create a Clappr player instance
+            var player = new Clappr.Player({
+                source: url, // Set the source to the URL of the selected video
+                parentId: '.main-video-container', // Attach the player to the main video container
+                mimeType: 'application/x-mpegURL', // Set the MIME type for M3U files
+            });
+
             document.getElementById('mainVideoTitle').innerText = film;
         };
     </script>
