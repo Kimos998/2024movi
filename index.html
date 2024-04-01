@@ -6,8 +6,7 @@
     <title>Movies</title>
 </head>
 
-
-  <style>
+<style>
        body {
   margin: 0;
   padding: 0;
@@ -96,7 +95,7 @@ img {
             sessionStorage.setItem('movieUrl', url);
             sessionStorage.setItem('movieName', name);
             sessionStorage.setItem('movieDescription', description);
-            window.open(`movie.html?film=${encodeURIComponent(name)}&free`, '_blank');
+            window.open(`movie.html?film=${encodeURIComponent(name)}&url=${encodeURIComponent(url)}`, '_blank');
         }
     </script>
 </body>
