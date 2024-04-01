@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+</head>
+
+
+  <style>
+       body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif; /* Set a base font family */
+}
+
+header {
+  background-color: #f0f0f0; /* Light background for header */
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2em; /* Increase heading size slightly */
+  margin-bottom: 10px;
+}
+
+p {
+  color: #666; /* Subdued text color */
+}
+
+.section-title {
+  margin-top: 20px; /* Spacing after header */
+}
+
+#movies-container {
+  padding: 20px; /* Padding for spacing and consistency */
+}
+
+#movies {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid columns */
+  gap: 20px;
+  text-align: center;
+}
+
+.movie {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out; /* Add smooth hover effect for visual appeal */
+  cursor: pointer; /* Indicate clickable elements */
+}
+
+.movie:hover { /* Style for hover interaction */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle hover shadow */
+}
+
+img {
+  border-radius: 20px;
+  width: 100%; /* Ensure images fill container width */
+}
+
+@media screen and (max-width: 600px) {
+  #movies {
+    grid-template-columns: 1fr; /* Single column for small screens */
+  }
+}
+
+    </style>
+
+<body>
+    <div id="movies"></div>
+
+    <script>
+        fetch('https://sheets.googleapis.com/v4/spreadsheets/1l7T7hgeAqg1iIT1TEEqtHnuTr7DBIo0ifoTIceHqh4o/values/Sheet1!A1:I100?key=AIzaSyB5WTjIR5OZt108xl9uQApzeoNRWuMyYRE')
+            .then(response => response.json())
+            .then(data => {
+                const movies = document.getElementById('movies');
+                for(let i = 1; i < data.values.length; i++) {
+                    const movie = data.values[i];
+                    const [id, name, description, url, category, poster] = movie;
+                    const movieDiv = document.createElement('div');
+                    movieDiv.innerHTML = `
+                        <div>
+                            <h3>${name}</h3>
+                            <img src="${poster}" alt="${name} Poster" width="150">
+                            <p>Category: ${category}</p>
+                            <button onclick="showMovie('${url}', '${name}', '${description}')">Watch Details</button>
+                        </div>
+                    `;
+                    movies.appendChild(movieDiv);
+                }
+            });
+
+        function showMovie(url, name, description) {
+            sessionStorage.setItem('movieUrl', url);
+            sessionStorage.setItem('movieName', name);
+            sessionStorage.setItem('movieDescription', description);
+            window.open(`movie.html?film=${encodeURIComponent(name)}&free`, '_blank');
+        }
+    </script>
+</body>
+</html>
